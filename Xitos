@@ -1,0 +1,103 @@
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+
+-- Criando GUI
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Parent = game.CoreGui
+
+local Frame = Instance.new("Frame")
+Frame.Size = UDim2.new(0, 300, 0, 300)
+Frame.Position = UDim2.new(0.5, -150, 0.5, -150)
+Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+Frame.BorderSizePixel = 0
+Frame.Parent = ScreenGui
+
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, 0, 0, 40)
+Title.BackgroundColor3 = Color3.fromRGB(255, 85, 0)
+Title.Text = "Made BY CLH HUB/CORTOUIS"
+Title.TextColor3 = Color3.new(1, 1, 1)
+Title.Font = Enum.Font.SourceSansBold
+Title.TextSize = 18
+Title.Parent = Frame
+
+-- TextBox para Teletransporte por Nome
+local TeleportBox = Instance.new("TextBox")
+TeleportBox.Size = UDim2.new(0.8, 0, 0, 30)
+TeleportBox.Position = UDim2.new(0.1, 0, 0.2, 0)
+TeleportBox.PlaceholderText = "Digite o nickname"
+TeleportBox.TextColor3 = Color3.new(1, 1, 1)
+TeleportBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+TeleportBox.Parent = Frame
+
+local TeleportButton = Instance.new("TextButton")
+TeleportButton.Size = UDim2.new(0.8, 0, 0, 30)
+TeleportButton.Position = UDim2.new(0.1, 0, 0.3, 0)
+TeleportButton.Text = "Teletransportar"
+TeleportButton.TextColor3 = Color3.new(1, 1, 1)
+TeleportButton.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
+TeleportButton.Parent = Frame
+
+TeleportButton.MouseButton1Click:Connect(function()
+    local targetName = TeleportBox.Text
+    local targetPlayer = Players:FindFirstChild(targetName)
+    
+    if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        LocalPlayer.Character.HumanoidRootPart.CFrame = targetPlayer.Character.HumanoidRootPart.CFrame
+    end
+end)
+
+-- Teletransporte ao clicar no jogador
+Mouse.Button1Down:Connect(function()
+    if Mouse.Target and Mouse.Target.Parent then
+        local targetPlayer = Players:GetPlayerFromCharacter(Mouse.Target.Parent)
+        if targetPlayer and targetPlayer.Character then
+            LocalPlayer.Character.HumanoidRootPart.CFrame = targetPlayer.Character.HumanoidRootPart.CFrame
+        end
+    end
+end)
+
+-- ESP nos jogadores
+for _, player in ipairs(Players:GetPlayers()) do
+    if player ~= LocalPlayer then
+        local highlight = Instance.new("Highlight")
+        highlight.Parent = player.Character
+        highlight.FillColor = Color3.new(1, 0, 0) -- Vermelho
+        highlight.OutlineColor = Color3.new(1, 1, 1)
+    end
+end
+
+Players.PlayerAdded:Connect(function(player)
+    player.CharacterAdded:Connect(function(character)
+        local highlight = Instance.new("Highlight")
+        highlight.Parent = character
+        highlight.FillColor = Color3.new(1, 0, 0)
+        highlight.OutlineColor = Color3.new(1, 1, 1)
+    end)
+end)
+
+-- TextBox para mudar velocidade
+local SpeedBox = Instance.new("TextBox")
+SpeedBox.Size = UDim2.new(0.8, 0, 0, 30)
+SpeedBox.Position = UDim2.new(0.1, 0, 0.5, 0)
+SpeedBox.PlaceholderText = "Digite a Velocidade"
+SpeedBox.TextColor3 = Color3.new(1, 1, 1)
+SpeedBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+SpeedBox.Parent = Frame
+
+local SpeedButton = Instance.new("TextButton")
+SpeedButton.Size = UDim2.new(0.8, 0, 0, 30)
+SpeedButton.Position = UDim2.new(0.1, 0, 0.6, 0)
+SpeedButton.Text = "Alterar Velocidade"
+SpeedButton.TextColor3 = Color3.new(1, 1, 1)
+SpeedButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+SpeedButton.Parent = Frame
+
+SpeedButton.MouseButton1Click:Connect(function()
+    local speed = tonumber(SpeedBox.Text)
+    if speed then
+        LocalPlayer.Character.Humanoid.WalkSpeed = speed
+    end
+end)
+

@@ -11,6 +11,8 @@ Frame.Size = UDim2.new(0, 300, 0, 300)
 Frame.Position = UDim2.new(0.5, -150, 0.5, -150)
 Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 Frame.BorderSizePixel = 0
+Frame.Active = true
+Frame.Draggable = true -- Permite arrastar
 Frame.Parent = ScreenGui
 
 local Title = Instance.new("TextLabel")
@@ -100,4 +102,3 @@ SpeedButton.MouseButton1Click:Connect(function()
         LocalPlayer.Character.Humanoid.WalkSpeed = speed
     end
 end)
-
